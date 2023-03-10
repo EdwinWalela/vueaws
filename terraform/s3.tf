@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "website" {
 
 resource "aws_s3_bucket_acl" "website" {
   bucket = aws_s3_bucket.website.id
-  acl = "private"
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_versioning" "website" {
@@ -39,11 +39,11 @@ resource "aws_s3_bucket_cors_configuration" "website" {
 # Attach policy to OAI to allow ONLY s3:GetObject permission
 data "aws_iam_policy_document" "s3_policy" {
   statement {
-    action = ["s3:GetObject"]
+    actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.website.arn}/*"]
 
     principals {
-      type ="AWS"
+      type        = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn]
     }
   }
@@ -65,7 +65,7 @@ resource "aws_s3_bucket_public_access_block" "website" {
   bucket = aws_s3_bucket.website.id
 
   block_public_policy = true
-  block_public_acls = true
+  block_public_acls   = true
 
 }
 
